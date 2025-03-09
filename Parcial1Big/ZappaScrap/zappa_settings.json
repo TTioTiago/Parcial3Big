@@ -1,0 +1,27 @@
+{
+    "dev": {
+        "app_function": "scrap.download_and_upload",
+        "aws_region": "us-east-1",
+        "exclude": [
+            "boto3",
+            "dateutil",
+            "botocore",
+            "s3transfer",
+            "concurrent"
+        ],
+        "profile_name": "default",
+        "project_name": "zappascrap",
+        "runtime": "python3.10",
+        "s3_bucket": "zappa-oz1zxt314",
+        "keep_warm": false,
+        "apigateway_enabled": false,
+        "manage_roles": false,
+        "role_name": "LabRole",
+        "events": [
+            {
+                "function": "scrap.download_and_upload",
+                "expression": "cron(0 11 * * ? *)"
+            }
+        ]
+    }
+}
