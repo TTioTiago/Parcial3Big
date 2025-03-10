@@ -43,7 +43,7 @@ jobs:
         run: pip install pytest boto3 beautifulsoup4 pandas
 
       - name: Run tests
-        run: pytest test_project.py --maxfail=1 --disable-warnings
+        run: pytest Parcial1Big/Zappacsv/test_project.py --maxfail=1 --disable-warnings
 
   deploy:
     name: Deploy to AWS Lambda
