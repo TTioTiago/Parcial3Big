@@ -25,7 +25,7 @@ jobs:
         run: pip install flake8
 
       - name: Ejecutar Flake8
-        run: flake8 Parcial1Big/Zappacsv/function.py test_function.py --max-line-length=120
+        run: flake8 Parcial1Big/Zappacsv/function.py test_project.py --max-line-length=120
 
   test:
     name: Run pytest
