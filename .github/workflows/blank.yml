@@ -82,11 +82,5 @@ jobs:
 
       - name: Deploy with Zappa
         run: |
-          if ! zappa status devi 2>&1 | grep -q "deployed"; then
-            echo "Function not found. Running 'zappa deploy'..."
-            zappa deploy devi
-          else
-            echo "Function exists. Running 'zappa update'..."
-            zappa update devi
-          fi
-
+          zappa update devi -s Parcial1Big/Zappacsv/zappa_settings.json
+          
