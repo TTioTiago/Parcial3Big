@@ -31,15 +31,15 @@ def test_lambda_handler(mock_get_object):
         <p data-test="floor-area" content="60 m²"></p>
     </a>
     """
-    
+
     # Mocking HTML content (simulando respuesta de S3 para un archivo HTML)
     mock_get_object.return_value = {
         "Body": StringIO(html_mock)  # Simula un archivo HTML en memoria
     }
-    
+
     # Aquí no necesitas pandas, solo llama a la función que procesa el HTML
     result = function.extract_data_from_html(html_mock)  # Llamar directamente a la función
-    
+
     # Verifica el resultado
     assert len(result) > 0  # Asegúrate de que hay datos extraídos
     assert result[0] == ["Suba", "450000000", "2", "2", "60"]  # Verifica los valores extraídos correctamente
