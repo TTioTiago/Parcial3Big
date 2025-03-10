@@ -1,7 +1,9 @@
-from unittest.mock import Mock, patch
 import sys
-sys.path.insert(0, "Parcial1Big/Zappacsv")  # Ajusta según la estructura real de tu proyecto
+sys.path.insert(0, "Parcial1Big/Zappacsv")  # Esto debe ir antes de importar function
+
+from unittest.mock import Mock, patch
 import function
+
 
 
 def test_extract_data_from_html():
