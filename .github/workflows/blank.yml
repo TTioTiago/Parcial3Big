@@ -82,5 +82,6 @@ jobs:
 
       - name: Deploy with Zappa
         run: |
+          source venv/bin/activate
           zappa update devi -s Parcial1Big/Zappacsv/zappa_settings.json
           
