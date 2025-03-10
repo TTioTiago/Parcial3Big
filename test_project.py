@@ -1,4 +1,6 @@
 from unittest.mock import Mock, patch
+import sys
+sys.path.insert(0, "Parcial1Big/Zappacsv")  # Ajusta según la estructura real de tu proyecto
 import function
 
 
