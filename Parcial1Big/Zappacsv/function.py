@@ -46,7 +46,7 @@ def app(event, context):
     for record in event["Records"]:
         file_key = record["s3"]["object"]["key"]
         response = s3_client.get_object(Bucket=S3_BUCKET, Key=file_key)
-        html_content = response["Body"].read().decode("utf-8")
+        html_content = response["Body"].read()
         properties = extract_data_from_html(html_content)
 
         if not properties:
