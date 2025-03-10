@@ -73,10 +73,33 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region us-east-1
 
-      - name: Deploy with Zappa
+      - name: Deploy Zappacsv with Zappa
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           source venv/bin/activate
-          zappa update devi -s Parcial1Big/Zappacsv/zappa_settings.json
+          cd Parcial1Big/Zappacsv
+          if aws lambda get-function --function-name zappacsv-devi 2>/dev/null; then
+            echo "Function exists, updating..."
+            zappa update devi -s zappa_settings.json
+          else
+            echo "Function does not exist, deploying..."
+            zappa deploy devi -s zappa_settings.json
+          fi
+
+      - name: Deploy ZappaScrap with Zappa
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          source venv/bin/activate
+          cd Parcial1Big/ZappaScrap
+          if aws lambda get-function --function-name zappascrap-devi 2>/dev/null; then
+            echo "Function exists, updating..."
+            zappa update devi -s zappa_settings.json
+          else
+            echo "Function does not exist, deploying..."
+            zappa deploy devi -s zappa_settings.json
+          fi
+
