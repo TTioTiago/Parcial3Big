@@ -81,7 +81,12 @@ jobs:
           aws s3 ls
 
       - name: Deploy with Zappa
+        env:
+          AWS_PROFILE: default  # Se fuerza el uso del perfil por defecto
+          AWS_REGION: us-east-1 # Se asegura de que boto3 use la región correcta
         run: |
           source venv/bin/activate
+          export AWS_DEFAULT_REGION=us-east-1
+          export AWS_REGION=us-east-1
           zappa update devi -s Parcial1Big/Zappacsv/zappa_settings.json
           
