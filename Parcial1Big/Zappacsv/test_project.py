@@ -22,12 +22,7 @@ def test_extract_data_from_html():
 @patch("function.s3_client.get_object")
 def test_lambda_handler(mock_get_object):
     """Prueba la ejecución de la función Lambda con un archivo S3."""
-    event = {
-        "Records": [
-            {"s3": {"bucket": {"name": "bucket-zappascrap"}, "object": {"key": "pagina-1.html"}}}
-        ]
-    }
-    
+    # Eliminar la variable 'event' si no se utiliza
     html_mock = """
     <a class="listing listing-card"
        data-price="450000000"
