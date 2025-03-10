@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: pip install flake8
 
-      - name: Ejecutar Flake8
+      - name: Run Flake8
         run: flake8 Parcial1Big/Zappacsv/function.py Parcial1Big/Zappacsv/test_project.py --max-line-length=120
 
   test:
@@ -79,5 +79,11 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           source venv/bin/activate
-          zappa update devi -s Parcial1Big/Zappacsv/zappa_settings.json
+          if zappa status devi 2>&1 | grep -q "could not find"; then
+            echo "First deployment detected. Running 'zappa deploy'..."
+            zappa deploy devi -s Parcial1Big/Zappacsv/zappa_settings.json
+          else
+            echo "Function exists. Running 'zappa update'..."
+            zappa update devi -s Parcial1Big/Zappacsv/zappa_settings.json
+          fi
 
