@@ -64,13 +64,18 @@ jobs:
       - name: Activate virtual environment and install dependencies
         run: |
           source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
           pip install zappa boto3 awscli
 
       - name: Set up AWS CLI
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           source venv/bin/activate
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
           aws configure set region us-east-1
 
       - name: Deploy with Zappa
@@ -79,8 +84,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           source venv/bin/activate
-          if zappa status devi 2>&1 | grep -q "could not find"; then
-            echo "First deployment detected. Running 'zappa deploy'..."
+          if zappa status devi 2>&1 | grep -q "Error"; then
+            echo "Function not found. Running 'zappa deploy'..."
             zappa deploy devi -s Parcial1Big/Zappacsv/zappa_settings.json
           else
             echo "Function exists. Running 'zappa update'..."
