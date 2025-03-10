@@ -15,20 +15,35 @@ def extract_data_from_html(html_content):
     soup = BeautifulSoup(html_content, "html.parser")
     properties = []
 
-    for listing in soup.find_all("a", class_="listing listing-card"):
-        precio = listing.get("data-price", "N/A").replace(",", "")
-        barrio = listing.get("data-location", "Desconocido")
-        num_habitaciones = listing.get("data-rooms", "N/A")
+    listings = soup.find_all("a", class_="listing listing-card")
 
-        num_banos = listing.find("p", {"data-test": "bathrooms"})
-        num_banos = num_banos["content"] if num_banos else "N/A"
+    if not listings:
+        print("⚠️ No se encontraron listados en el HTML")
+        return []
 
-        mts2 = listing.find("p", {"data-test": "floor-area"})
-        mts2 = mts2["content"].replace(" m²", "") if mts2 else "N/A"
+    for listing in listings:
+        # Extraer precio (manejar valores vacíos)
+        precio = listing.get("data-price", "N/A").replace(",", "").strip()
+
+        # Extraer barrio
+        barrio = listing.get("data-location", "Desconocido").strip()
+
+        # Extraer habitaciones
+        num_habitaciones = listing.get("data-rooms", "N/A").strip()
+
+        # Extraer baños con `get_text()`
+        num_banos_elem = listing.find("p", {"data-test": "bathrooms"})
+        num_banos = num_banos_elem.get_text(strip=True) if num_banos_elem else "N/A"
+
+        # Extraer metros cuadrados con `get_text()`
+        mts2_elem = listing.find("p", {"data-test": "floor-area"})
+        mts2 = mts2_elem.get_text(strip=True).replace(" m²", "") if mts2_elem else "N/A"
 
         properties.append([barrio, precio, num_habitaciones, num_banos, mts2])
 
+    print(f"✅ Se extrajeron {len(properties)} propiedades del HTML")  # Log de depuración
     return properties
+
 
 
 def app(event, context):
