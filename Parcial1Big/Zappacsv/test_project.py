@@ -1,4 +1,5 @@
 from unittest.mock import Mock, patch
+from io import StringIO
 import function
 
 
@@ -36,7 +37,10 @@ def test_lambda_handler(mock_get_object):
         <p data-test="floor-area" content="60 m²"></p>
     </a>
     """
-    mock_get_object.return_value = {"Body": Mock(read=lambda: html_mock.encode("utf-8"))}
+
+    mock_get_object.return_value = {
+        "Body": StringIO(html_mock)  # 🔥 Simula un archivo en memoria
+    }
 
     result = function.app(event, None)
 
@@ -50,3 +54,4 @@ def test_app_function_no_records():
 
     assert result["status"] == "ERROR"
     assert result["message"] == "Evento sin 'Records'"
+    
