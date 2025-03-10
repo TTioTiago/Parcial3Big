@@ -1,5 +1,4 @@
 from unittest.mock import Mock, patch
-from bs4 import BeautifulSoup
 import function
 
 
