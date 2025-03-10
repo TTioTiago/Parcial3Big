@@ -45,7 +45,6 @@ def extract_data_from_html(html_content):
     return properties
 
 
-
 def app(event, context):
     """Lambda que procesa archivos HTML desde S3 y actualiza el CSV del día."""
     print("✅ Lambda ejecutada correctamente")
