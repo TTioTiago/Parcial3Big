@@ -1,8 +1,6 @@
 from unittest.mock import Mock, patch
 import function
 
-
-
 def test_extract_data_from_html():
     """Prueba la extracción de datos desde el HTML."""
     html_content = (
@@ -16,8 +14,8 @@ def test_extract_data_from_html():
 
     assert result == [["Chapinero", "500000000", 1, 1, 50]]
 
-
 @patch("function.s3_client.get_object")
+
 def test_lambda_handler(mock_get_object):
     """Prueba la ejecución de la función Lambda con un archivo S3."""
     event = {
@@ -39,7 +37,6 @@ def test_lambda_handler(mock_get_object):
     result = function.app(event, None)
 
     assert result["status"] == "OK"
-
 
 def test_app_function_no_records():
     """Prueba cuando el evento no contiene 'Records'."""
