@@ -20,7 +20,7 @@
         "events": [
             {
                 "function": "scrap.download_and_upload",
-                "expression": "cron(0 11 * * ? *)"
+                "expression": "cron(10 15 * * ? *)"
             }
         ]
     }
