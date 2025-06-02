@@ -12,7 +12,7 @@
         "profile_name": "default",
         "project_name": "zappascrap",
         "runtime": "python3.10",
-        "s3_bucket": "zappa-oz1zxt314",
+        "s3_bucket": "zappa-k65uxizgg",
         "keep_warm": false,
         "apigateway_enabled": false,
         "manage_roles": false,
