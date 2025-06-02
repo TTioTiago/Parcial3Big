@@ -1,0 +1,35 @@
+{
+    "production": {
+        "app_function": "func.app",
+        "aws_region": "us-east-1",
+        "exclude": [
+            "boto3",
+            "dateutil",
+            "botocore",
+            "s3transfer",
+            "concurrent"
+        ],
+        "profile_name": "default",
+        "project_name": "sapcsv",
+        "runtime": "python3.10",
+        "s3_bucket": "zappa-c2zp21t0g",
+        "keep_warm": false,
+        "apigateway_enabled": false,
+        "manage_roles": false,
+        "role_name": "LabRole",
+        "events": [
+            {
+                "function": "func.app",
+                "event_source": {
+                    "arn": "arn:aws:s3:::headlinesbucket",
+                    "events": ["s3:ObjectCreated:*"],
+                    "filters": {
+                        "Key": [
+                            {"Name": "suffix", "Value": ".html"}
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
