@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
 import builtins
-from Parcial3Big import tiempojob
+
 
 
 @patch("Parcial3Big.tiempojob.boto3.client")
@@ -20,7 +20,7 @@ def test_tiempojob_success(mock_print, mock_requests_get, mock_boto3_client):
 
     # Vuelve a importar el archivo para ejecutar su cuerpo
     import importlib
-    import tiempojob
+    from Parcial3Big import tiempojob
     importlib.reload(tiempojob)
 
     # Verifica que se haya llamado put_object
@@ -40,7 +40,7 @@ def test_tiempojob_failed_request(mock_print, mock_requests_get, mock_boto3_clie
     mock_boto3_client.return_value = mock_s3
 
     import importlib
-    import tiempojob
+    from Parcial3Big import tiempojob
     importlib.reload(tiempojob)
 
     mock_print.assert_any_call("❌ Error al procesar https://www.eltiempo.com/: Falló la descarga")
