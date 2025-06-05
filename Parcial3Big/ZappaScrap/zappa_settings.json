@@ -7,7 +7,13 @@
             "dateutil",
             "botocore",
             "s3transfer",
-            "concurrent"
+            "concurrent",
+            "*.pyc",
+            "tests/*",
+            "docs/*",
+            ".pytest_cache/*",
+            "venv/*",
+            "*.md"   
         ],
         "profile_name": "default",
         "project_name": "zappascrap",
