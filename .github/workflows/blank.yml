@@ -1,7 +1,7 @@
 name: Deploy Lambda with Zappa
 
 on:
-  push: 
+  push:  
     branches:
       - main
   pull_request:
