@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 import boto3
-from moto.s3 import mock_s3
+from moto import mock_s3
 from io import BytesIO, StringIO
 from datetime import datetime
 import os
