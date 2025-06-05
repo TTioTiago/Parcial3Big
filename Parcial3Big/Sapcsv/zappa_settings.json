@@ -23,6 +23,7 @@
         "apigateway_enabled": false,
         "manage_roles": false,
         "role_name": "LabRole",
+        "slim_handler": true
         "events": [
             {
                 "function": "func.app",
