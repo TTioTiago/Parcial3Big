@@ -27,6 +27,7 @@ jobs:
 
       - name: Run unit tests
         run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
           pytest tests/ --maxfail=1 --disable-warnings
 
   deploy-sapcsv:
