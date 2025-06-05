@@ -1,10 +1,11 @@
 import pytest
 from unittest.mock import patch, MagicMock
 import builtins
+from Parcial3Big import tiempojob
 
 
-@patch("tiempojob.boto3.client")
-@patch("tiempojob.requests.get")
+@patch("Parcial3Big.tiempojob.boto3.client")
+@patch("Parcial3Big.tiempojob.requests.get")
 @patch("builtins.print")
 def test_tiempojob_success(mock_print, mock_requests_get, mock_boto3_client):
     # Simula una respuesta exitosa
@@ -30,8 +31,8 @@ def test_tiempojob_success(mock_print, mock_requests_get, mock_boto3_client):
     assert kwargs["Key"].startswith("headlines/raw/contenido-eltiempo-")
 
 
-@patch("tiempojob.boto3.client")
-@patch("tiempojob.requests.get")
+@patch("Parcial3Big.tiempojob.boto3.client")
+@patch("Parcial3Big.tiempojob.requests.get")
 @patch("builtins.print")
 def test_tiempojob_failed_request(mock_print, mock_requests_get, mock_boto3_client):
     mock_requests_get.side_effect = Exception("Falló la descarga")
