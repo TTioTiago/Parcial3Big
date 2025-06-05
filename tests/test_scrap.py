@@ -3,8 +3,8 @@ from unittest.mock import patch, MagicMock
 from Parcial3Big.ZappaScrap import scrap
 
 
-@patch("Parcial3Big.Zappa_Scrap.scrap.requests.get")
-@patch("Parcial3Big.Zappa_Scrap.scrap.s3_client.put_object")
+@patch("Parcial3Big.ZappaScrap.scrap.requests.get")
+@patch("Parcial3Big.ZappaScrap.scrap.s3_client.put_object")
 def test_download_and_upload_success(mock_put_object, mock_requests_get):
     # Simular respuesta exitosa
     mock_response = MagicMock()
@@ -28,8 +28,8 @@ def test_download_and_upload_success(mock_put_object, mock_requests_get):
     assert kwargs["Body"] == mock_response.text
 
 
-@patch("Parcial3Big.Zappa_Scrap.scrap.requests.get")
-@patch("Parcial3Big.Zappa_Scrap.scrap.s3_client.put_object")
+@patch("Parcial3Big.ZappaScrap.scrap.requests.get")
+@patch("Parcial3Big.ZappaScrap.scrap.s3_client.put_object")
 def test_download_and_upload_fail_status_code(mock_put_object, mock_requests_get):
     mock_response = MagicMock()
     mock_response.status_code = 404
@@ -42,8 +42,8 @@ def test_download_and_upload_fail_status_code(mock_put_object, mock_requests_get
     mock_put_object.assert_not_called()
 
 
-@patch("Parcial3Big.Zappa_Scrap.scrap.requests.get", side_effect=Exception("Timeout"))
-@patch("Parcial3Big.Zappa_Scrap.scrap.s3_client.put_object")
+@patch("Parcial3Big.ZappaScrap.scrap.requests.get", side_effect=Exception("Timeout"))
+@patch("Parcial3Big.ZappaScrap.scrap.s3_client.put_object")
 def test_download_and_upload_exception(mock_put_object, mock_requests_get):
     result = scrap.download_and_upload({}, {})
     assert result["status"] == "OK"
