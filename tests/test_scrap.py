@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from Parcial3Big.Zappa_Scrap import scrap
+from Parcial3Big.ZappaScrap import scrap
 
 
 @patch("Parcial3Big.Zappa_Scrap.scrap.requests.get")
