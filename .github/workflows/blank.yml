@@ -23,12 +23,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pytest boto3 moto requests requests-mock beautifulsoup4 pandas
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install moto
 
-      - name: Run tests
-        run: |
-          pytest Parcial3Big/Sapcsv/ --disable-warnings
-          pytest Parcial3Big/ZappaScrap/ --disable-warnings
+      - name: Run unit tests from testProject.py
+        run: pytest Parcial3Big/testProject.py --disable-warnings
 
   deploy:
     name: Deploy with Zappa
@@ -59,7 +59,7 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
-      - name: Forzar Zappa a ignorar perfiles
+      - name: Override AWS credentials for Zappa
         run: |
           mkdir -p ~/.aws
           echo "[default]" > ~/.aws/credentials
