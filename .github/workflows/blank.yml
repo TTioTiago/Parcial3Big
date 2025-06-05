@@ -1,7 +1,7 @@
-name: Deploy Lambda with Zappa
+name: Deploy and Test AWS Projects
 
 on:
-  push:  
+  push:
     branches:
       - main
   pull_request:
@@ -10,10 +10,10 @@ on:
 
 jobs:
   test:
+    name: Run unit tests
     runs-on: ubuntu-latest
-    name: Run Unit Tests
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -23,19 +23,18 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-       
+          pip install pytest boto3 beautifulsoup4 pandas requests
 
-      - name: Run unit tests from testProject.py
-        run: pytest Parcial3Big/testProject.py --disable-warnings
+      - name: Run unit tests
+        run: |
+          pytest tests/ --maxfail=1 --disable-warnings
 
-  deploy:
-    name: Deploy with Zappa
+  deploy-sapcsv:
+    name: Deploy Sapcsv to AWS Lambda
     runs-on: ubuntu-latest
     needs: [test]
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -43,12 +42,12 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Set up virtual environment and install Zappa
+      - name: Install dependencies
         run: |
           python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
-          pip install -r requirements.txt || true
+          pip install -r requirements.txt
           pip install zappa boto3 awscli
 
       - name: Configure AWS credentials
@@ -59,22 +58,67 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
-      - name: Override AWS credentials for Zappa
+      - name: Set AWS credentials for Zappa
         run: |
           mkdir -p ~/.aws
           echo "[default]" > ~/.aws/credentials
           echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
           echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
           echo "aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}" >> ~/.aws/credentials
+          cat ~/.aws/credentials
 
-      - name: Deploy Lambda 1 (Sapcsv)
+      - name: Deploy Sapcsv with Zappa
+        env:
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_REGION: us-east-1
+          AWS_PROFILE: default
         run: |
           source venv/bin/activate
-          zappa update production -s Parcial3Big/Sapcsv/zappa_settings.json
+          zappa update devi -s Parcial3Big/Sapcsv/zappa_settings.json
 
-      - name: Deploy Lambda 2 (ZappaScrap)
+  deploy-scrap:
+    name: Deploy Scrap to AWS Lambda
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install zappa boto3 awscli
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1
+
+      - name: Set AWS credentials for Zappa
+        run: |
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> ~/.aws/credentials
+          echo "aws_session_token=${{ secrets.AWS_SESSION_TOKEN }}" >> ~/.aws/credentials
+          cat ~/.aws/credentials
+
+      - name: Deploy Scrap with Zappa
+        env:
+          AWS_DEFAULT_REGION: us-east-1
+          AWS_REGION: us-east-1
+          AWS_PROFILE: default
         run: |
           source venv/bin/activate
-          zappa update dev -s Parcial3Big/ZappaScrap/zappa_settings.json
-
-          
+          zappa update devi -s Parcial3Big/Zappa_Scrap/zappa_settings.json
