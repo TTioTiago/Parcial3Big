@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import patch, MagicMock
 from Parcial3Big import jobcsv
 import pandas as pd
+from io import StringIO
 
 
 def test_extract_data_from_html_empty():
