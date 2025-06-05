@@ -75,7 +75,7 @@ jobs:
           AWS_PROFILE: default
         run: |
           source venv/bin/activate
-          zappa update devi -s Parcial3Big/Sapcsv/zappa_settings.json
+          zappa update production -s Parcial3Big/Sapcsv/zappa_settings.json
 
   deploy-scrap:
     name: Deploy Scrap to AWS Lambda
@@ -122,4 +122,4 @@ jobs:
           AWS_PROFILE: default
         run: |
           source venv/bin/activate
-          zappa update devi -s Parcial3Big/Zappa_Scrap/zappa_settings.json
+          zappa update dev -s Parcial3Big/ZappaScrap/zappa_settings.json
